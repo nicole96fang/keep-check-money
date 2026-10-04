@@ -4,6 +4,103 @@
 :root{--p:#FFE5ED;--m:#E8FFF4;--ink:#514653;--muted:#9b909b;--line:#f2e5ea;--green:#639c81;--rose:#cb7889}*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#fffafc,#f7fffb);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;padding-bottom:85px}.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 15px 20px}.top{display:flex;justify-content:space-between;align-items:center;padding:17px 3px}.top h1{font-size:23px;margin:4px 0}.muted,small{color:var(--muted)}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;margin:12px 0;box-shadow:0 7px 22px #b78e9b18}.head{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:12px}.monthbar{display:flex;justify-content:center;align-items:center;gap:14px;margin:10px}.round{border:1px solid var(--line);background:white;border-radius:50%;width:38px;height:38px;font-size:20px}.month{background:white;border:1px solid var(--line);border-radius:99px;padding:10px 17px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;text-align:center}.stat{background:#fff7fa;border-radius:15px;padding:10px 2px}.stat:nth-child(2){background:#f2fff8}.stat span{display:block;font-size:11px;color:var(--muted)}.stat b{display:block;font-size:clamp(16px,4vw,22px);margin:6px 0;overflow-wrap:anywhere}.in{color:var(--green)}.out{color:var(--rose)}.chart{height:150px;display:flex;align-items:end;gap:5px}.barbox{flex:1;height:100%;display:flex;align-items:end;justify-content:center;gap:3px}.bar{width:40%;border-radius:8px 8px 2px 2px;background:#e5a0b0;min-height:2px}.bar.in{background:#79b99d}.labels{display:flex;justify-content:space-around;font-size:10px;color:var(--muted)}.row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px dashed var(--line)}.row:last-child{border:0}.ico{width:40px;height:40px;border-radius:14px;background:var(--p);display:grid;place-items:center;font-size:20px}.grow{flex:1;min-width:0}.grow b{display:block;font-size:14px}.grow small{font-size:11px}.amount{font-weight:750;white-space:nowrap}.field{width:100%;border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;color:var(--ink);margin:5px 0;min-width:0}.btn{border:0;border-radius:14px;padding:12px 15px;background:var(--p);color:var(--ink);font-weight:650}.mint{background:var(--m)}.outline{background:white;border:1px solid var(--line)}.danger{background:#fff0f1;color:#b85d70}.full{width:100%;margin-top:8px}.tools{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.tools>*{flex:1}.page{display:none}.page.active{display:block}.bottom{position:fixed;bottom:0;left:0;right:0;z-index:5;display:flex;justify-content:space-around;background:#fffdfcf2;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom));max-width:760px;margin:auto}.nav{background:none;color:#9b909b;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;padding:4px 9px;border-radius:14px}.nav span{font-size:21px}.nav.active{background:var(--p);color:#725b69}.nav.plus span{background:#9bcdb4;color:white;border-radius:14px;padding:1px 12px;font-size:28px}.hero{background:linear-gradient(120deg,#9fc8b0,#d9efe1);color:white;border-radius:20px;padding:18px}.hero strong{font-size:28px;display:block;margin:8px 0}.modal{display:none;position:fixed;inset:0;background:#34283c66;z-index:9;align-items:end;justify-content:center}.modal.show{display:flex}.sheet{background:#fffdfc;border-radius:24px 24px 0 0;padding:18px;width:min(100%,620px);max-height:92dvh;overflow:auto;padding-bottom:calc(20px + env(safe-area-inset-bottom))}.switch{display:flex;gap:7px}.switch button{flex:1}.switch .chosen{background:var(--m)}.keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.keypad button{padding:12px 3px;border:1px solid var(--line);background:white;border-radius:12px;font-size:18px}.empty{text-align:center;padding:28px;color:var(--muted)}.thumbs img{width:58px;height:58px;object-fit:cover;border-radius:9px;margin:4px}.notice{background:#f1fff8;padding:12px;border-radius:13px;font-size:12px;line-height:1.6;color:#658876}
 @media(min-width:650px){.app{padding-left:24px;padding-right:24px}.modal{align-items:center}.sheet{border-radius:24px}}
 @media print{@page{size:A4;margin:12mm}body{padding:0;background:white}.app{max-width:none;padding:0}.top,.bottom,.noprint,.modal{display:none!important}.page{display:none!important}.page.printing{display:block!important}.card{box-shadow:none;break-inside:avoid;border:1px solid #ddd}.row{break-inside:avoid}.thumbs img{width:75px;height:75px;object-fit:contain;break-inside:avoid}.chart{height:120px}}
+
+/* ===== Nicole Dreamy Garden visual refresh ===== */
+:root{
+  --p:#f8dce9;--m:#dff5ed;--ink:#46536b;--muted:#8793a5;
+  --line:rgba(190,177,207,.42);--green:#579b83;--rose:#cf7898;
+}
+html{min-height:100%;background:#eaf3fb}
+body{
+  position:relative;isolation:isolate;min-height:100vh;
+  background:linear-gradient(180deg,rgba(236,246,255,.18),rgba(255,247,251,.28));
+  color:var(--ink);
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:url("dreamy-garden-bg.jpeg");
+  background-position:center center;background-size:cover;background-repeat:no-repeat;
+  transform:scale(1.015);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(240,248,255,.22),rgba(255,250,253,.30) 48%,rgba(237,249,246,.30));
+}
+.app{position:relative;z-index:1;max-width:760px;padding-left:17px;padding-right:17px}
+.top{padding:22px 5px 17px}
+.top h1{color:#43516a;text-shadow:0 1px 8px rgba(255,255,255,.75);letter-spacing:.1px}
+.top small{color:#78879e}
+.card{
+  background:rgba(255,255,255,.79);border:1px solid rgba(255,255,255,.9);
+  outline:1px solid rgba(205,190,214,.30);border-radius:25px;
+  padding:18px;margin:15px 0;
+  box-shadow:0 10px 30px rgba(91,112,146,.10),inset 0 1px 0 rgba(255,255,255,.85);
+  backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
+}
+.head{color:#4b5369;font-size:16px}
+.monthbar{margin:15px 0 17px;gap:12px}
+.round,.month{background:rgba(255,255,255,.78);border:1px solid rgba(202,190,216,.55);color:#4b86bd;box-shadow:0 4px 14px rgba(97,120,157,.07)}
+.round{width:42px;height:42px}
+.month{color:#4b5369;padding:11px 20px;font-weight:700}
+.stats{gap:9px}
+.stat{background:rgba(255,239,246,.82);border:1px solid rgba(255,255,255,.8);border-radius:18px;padding:13px 4px}
+.stat:nth-child(2){background:rgba(231,250,243,.88)}
+.stat span{font-size:12px;color:#8b91a3}
+.stat b{font-size:clamp(15px,4vw,22px);color:#586075}
+.stat b.out{color:#c87994}.stat b.in{color:#579b83}
+.chart{
+  height:178px;gap:6px;padding:10px 2px 0;
+  border-bottom:1px solid rgba(177,190,207,.32);
+  background:linear-gradient(180deg,rgba(235,245,255,.22),rgba(255,255,255,.05));
+  border-radius:14px 14px 0 0;
+}
+.barbox{gap:4px;align-items:end}
+.bar{width:42%;border-radius:9px 9px 3px 3px;background:linear-gradient(180deg,#e9a5bd,#d887a6);box-shadow:0 2px 7px rgba(202,126,158,.14)}
+.bar.in{background:linear-gradient(180deg,#9bd5c2,#69b49a);box-shadow:0 2px 7px rgba(105,180,154,.13)}
+.labels{padding:5px 0 2px;font-size:11px;color:#8491a5}
+.row{border-bottom-color:rgba(180,190,207,.38)}
+.ico{background:rgba(250,224,237,.86);box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.field{background:rgba(255,255,255,.82);border-color:rgba(194,184,207,.55);color:#46536b}
+.field:focus{outline:2px solid rgba(130,183,215,.35);border-color:#9bbbd5}
+.btn{background:rgba(249,222,235,.92);color:#4d5369}
+.btn.mint,.mint{background:rgba(221,247,237,.95)}
+.btn.outline,.outline{background:rgba(255,255,255,.78);border:1px solid rgba(194,184,207,.55)}
+.btn.danger,.danger{background:rgba(255,232,236,.94);color:#b85d78}
+.hero{background:linear-gradient(120deg,rgba(132,190,183,.94),rgba(183,222,216,.94));box-shadow:0 8px 22px rgba(94,150,150,.13)}
+.bottom{
+  background:rgba(255,255,255,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid rgba(255,255,255,.9);box-shadow:0 -6px 24px rgba(92,112,145,.08)
+}
+.nav{color:#8290a2}.nav.active{background:rgba(249,220,235,.88);color:#5a536c}
+.nav.plus span{background:linear-gradient(145deg,#9bcfbd,#80b9a8);box-shadow:0 4px 12px rgba(101,165,145,.18)}
+.sheet{background:rgba(255,255,255,.96);color:var(--ink)}
+.notice{background:rgba(225,247,238,.88);color:#5f8d7b}
+.category-layout{display:grid;grid-template-columns:minmax(125px, .9fr) minmax(0,1.1fr);align-items:center;gap:14px;padding:12px 2px 3px}
+.donut-wrap{display:grid;place-items:center;min-height:155px}
+.donut{
+  width:min(42vw,158px);height:min(42vw,158px);max-width:158px;max-height:158px;
+  border-radius:50%;position:relative;box-shadow:0 5px 18px rgba(111,130,160,.10)
+}
+.donut::after{
+  content:"";position:absolute;inset:24%;border-radius:50%;
+  background:rgba(255,255,255,.94);box-shadow:inset 0 1px 5px rgba(106,122,150,.08)
+}
+.donut-center{position:absolute;z-index:1;text-align:center;font-size:11px;color:#8a91a2}
+.donut-center b{display:block;font-size:15px;color:#566078;margin-top:3px}
+.cat-legend{min-width:0}
+.cat-item{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px dashed rgba(180,190,207,.35);font-size:12px}
+.cat-item:last-child{border:0}
+.cat-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.cat-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#667187}
+.cat-value{font-weight:700;color:#536078;white-space:nowrap;font-size:11px}
+.cat-percent{color:#9a91a2;font-size:10px;min-width:32px;text-align:right}
+@media(max-width:390px){.category-layout{grid-template-columns:1fr}.donut-wrap{min-height:135px}.donut{width:132px;height:132px}}
+@media print{
+  body{background:white!important}
+  body::before,body::after{display:none!important}
+  .card{background:white!important;outline:0;box-shadow:none;backdrop-filter:none}
+}
+
 </style></head><body><div class="app">
 <header class="top"><div><small>WATERCOLOR MONEY JOURNAL</small><h1>Nicole 的记账工作台 🌷</h1><small>把每一笔生活，温柔地记录下来</small></div><span>🌿</span></header>
 <section id="stats" class="page active"><div class="monthbar"><button class="round" id="prev">‹</button><b class="month" id="month"></b><button class="round" id="next">›</button></div>
@@ -21,7 +118,7 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],DB='nicole-ledger-v1',S='entries',M='settings';
 let db,rows=[],settings={accounts:[{id:'cash',name:'现金钱包',balance:0,icon:'👛'},{id:'bank',name:'银行储蓄',balance:0,icon:'🏦'},{id:'ewallet',name:'电子钱包',balance:0,icon:'📱'}],books:['日常账本'],budget:0,lastBackup:null},type='expense',editing=null,keepPhotos=[],cursor=new Date(),catType='expense';
 const C={expense:[['🍱','餐饮'],['🛒','日用品'],['🚗','交通'],['🏠','房租'],['💡','水电'],['🩺','医疗'],['👗','衣服'],['🐾','宠物'],['🎀','娱乐'],['✈️','旅行'],['📱','通讯'],['📚','教育'],['💄','美容'],['🎁','礼物'],['🧾','其他']],income:[['💼','工资'],['📈','理财收入'],['🛍️','兼职'],['🎁','红包'],['💰','其他收入']]};
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7),fmt=n=>'RM '+Number(n||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2}),mk=d=>d instanceof Date?d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'):String(d||'').slice(0,7),sum=a=>a.reduce((t,r)=>{if(r.type==='income')t.i+=+r.amount;if(r.type==='expense')t.o+=+r.amount;return t},{i:0,o:0});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7),fmt=n=>'RM '+Number(n||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2}),mk=d=>String(d).slice(0,7),sum=a=>a.reduce((t,r)=>{if(r.type==='income')t.i+=+r.amount;if(r.type==='expense')t.o+=+r.amount;return t},{i:0,o:0});
 function openDB(){return new Promise((ok,no)=>{let q=indexedDB.open(DB,1);q.onupgradeneeded=()=>{q.result.createObjectStore(S,{keyPath:'id'});q.result.createObjectStore(M,{keyPath:'id'})};q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)})}
 function req(q){return new Promise((ok,no)=>{q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)})}
 const store=(s,m='readonly')=>db.transaction(s,m).objectStore(s);
@@ -31,7 +128,7 @@ function adj(r,dir){let a=settings.accounts.find(x=>x.id===r.account);if(a&&r.ty
 function render(){stats();details();accounts();$('#totaln').textContent=rows.length;$('#budget').value=settings.budget||'';$('#backupstatus').textContent=settings.lastBackup?'上次备份：'+new Date(settings.lastBackup).toLocaleString():'尚未备份'}
 function stats(){let key=mk(new Date(cursor.getFullYear(),cursor.getMonth(),1)),m=sum(rows.filter(r=>mk(r.date)===key)),y=sum(rows.filter(r=>r.date.startsWith(String(cursor.getFullYear()))));$('#month').textContent=cursor.getFullYear()+'年'+(cursor.getMonth()+1)+'月';$('#year').textContent=cursor.getFullYear()+'年';$('#mi').textContent=fmt(m.i);$('#mo').textContent=fmt(m.o);$('#mn').textContent=fmt(m.i-m.o);$('#yi').textContent=fmt(y.i);$('#yo').textContent=fmt(y.o);$('#yn').textContent=fmt(y.i-y.o);
 let arr=[];for(let n=11;n>=0;n--){let d=new Date(cursor.getFullYear(),cursor.getMonth()-n,1),s=sum(rows.filter(r=>mk(r.date)===mk(d)));arr.push({l:(d.getMonth()+1)+'月',...s})}let max=Math.max(1,...arr.flatMap(x=>[x.i,x.o]));$('#chart').innerHTML=arr.map(x=>'<div class="barbox"><i class="bar" style="height:'+Math.max(2,x.o/max*100)+'%"></i><i class="bar in" style="height:'+Math.max(2,x.i/max*100)+'%"></i></div>').join('');$('#labels').innerHTML=arr.map(x=>'<span>'+x.l+'</span>').join('');cats()}
-function cats(){let key=mk(new Date(cursor.getFullYear(),cursor.getMonth(),1)),a=rows.filter(r=>r.type===catType&&mk(r.date)===key),t=a.reduce((s,r)=>s+ +r.amount,0),g={};a.forEach(r=>g[r.category]=(g[r.category]||0)+ +r.amount);let x=Object.entries(g).sort((a,b)=>b[1]-a[1]);$('#cats').innerHTML=x.length?x.map(([k,v])=>'<div class="row"><div class="grow"><b>'+k+'</b><small>'+Math.round(v/t*100)+'%</small></div><b>'+fmt(v)+'</b></div>').join(''):'还没有记录 🌱'}
+function cats(){let key=mk(new Date(cursor.getFullYear(),cursor.getMonth(),1)),a=rows.filter(r=>r.type===catType&&mk(r.date)===key),t=a.reduce((s,r)=>s+ +r.amount,0),g={};a.forEach(r=>g[r.category]=(g[r.category]||0)+ +r.amount);let x=Object.entries(g).sort((a,b)=>b[1]-a[1]),colors=['#df91ad','#83bca9','#9bb8df','#c3a4d5','#e6bd83','#83c7d4','#b7c98c','#d9a5a0'];if(!x.length){$('#cats').innerHTML='<div class="empty">还没有记录 🌱</div>';return}let angle=0,stops=x.map(([k,v],i)=>{let start=angle;angle+=v/t*360;return colors[i%colors.length]+' '+start+'deg '+angle+'deg'}).join(',');$('#cats').innerHTML='<div class="category-layout"><div class="donut-wrap"><div class="donut" style="background:conic-gradient('+stops+')"><div class="donut-center">本月'+(catType==='expense'?'支出':'收入')+'<b>'+fmt(t)+'</b></div></div></div><div class="cat-legend">'+x.map(([k,v],i)=>'<div class="cat-item"><i class="cat-dot" style="background:'+colors[i%colors.length]+'"></i><span class="cat-name">'+k+'</span><b class="cat-value">'+fmt(v)+'</b><small class="cat-percent">'+Math.round(v/t*100)+'%</small></div>').join('')+'</div></div>'}
 function details(){let q=($('#search').value||'').toLowerCase(),m=$('#fm').value,t=$('#ft').value,a=rows.filter(r=>(!q||[r.note,r.category].join(' ').toLowerCase().includes(q))&&(!m||mk(r.date)===m)&&(t==='all'||r.type===t)).sort((a,b)=>(b.date+b.created).localeCompare(a.date+a.created));$('#count').textContent=a.length+' 笔';$('#list').innerHTML=a.length?a.map(r=>'<div class="row" data-id="'+r.id+'"><div class="ico">'+r.icon+'</div><div class="grow"><b>'+r.category+(r.note?' · '+r.note:'')+'</b><small>'+r.date+' · '+(settings.accounts.find(x=>x.id===r.account)?.name||'账户')+(r.photos?.length?' · 📷 '+r.photos.length:'')+'</small>'+(r.photos?.length?'<div class="thumbs">'+r.photos.map(p=>'<img src="'+p.data+'">').join('')+'</div>':'')+'</div><b class="amount '+(r.type==='income'?'in':'out')+'">'+(r.type==='income'?'+':'−')+fmt(r.amount)+'</b></div>').join(''):'<div class="empty">还没有记录，点击 ＋ 开始吧 🌷</div>';$$('[data-id]').forEach(e=>e.onclick=()=>edit(e.dataset.id))}
 function accounts(){$('#total').textContent=fmt(settings.accounts.reduce((s,a)=>s+a.balance,0));$('#accounts').innerHTML=settings.accounts.map(a=>'<div class="row"><div class="ico">'+a.icon+'</div><div class="grow"><b>'+a.name+'</b></div><b>'+fmt(a.balance)+'</b></div>').join('');$('#booklist').innerHTML=settings.books.map(b=>'<div class="row">📔　'+b+'</div>').join('')}
 function modal(){editing=null;type='expense';keepPhotos=[];$('#amount').value='';$('#note').value='';$('#photos').value='';$('#preview').innerHTML='';$('#date').value=new Date().toISOString().slice(0,10);$('#del').hidden=true;$('#modal').classList.add('show');updateType()}
