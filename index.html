@@ -299,6 +299,18 @@ body::after{
 #me .card button,
 #me .card small { opacity: 1 !important; }
 
+/* v8: tidy ledger list with a dedicated, easy-to-tap delete action */
+#books #booklist{display:flex;flex-direction:column;gap:9px;margin:12px 0 14px}
+#books .book-row{display:flex;align-items:center;gap:12px;min-width:0;padding:12px 11px;border:1px solid rgba(255,255,255,.68);border-radius:18px;background:rgba(255,255,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.48)}
+#books .book-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:15px;background:rgba(249,220,235,.58);font-size:21px}
+#books .book-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#books .book-info b{font-size:15px;font-weight:700;color:#4b5369;overflow-wrap:anywhere}
+#books .book-info small{font-size:11px;color:#8994a6}
+#books .book-delete{flex:0 0 auto;border:1px solid rgba(216,143,163,.32);border-radius:12px;padding:9px 12px;background:rgba(255,232,238,.68);color:#b96e87;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
+#books .book-delete:active{transform:scale(.97);background:rgba(250,215,226,.88)}
+#books #addbook{margin-top:4px}
+@media(max-width:360px){#books .book-row{gap:8px;padding:10px 8px}#books .book-delete{padding:8px 9px}}
+
 </style></head><body><div class="app">
 <header class="top"><div><small>WATERCOLOR MONEY JOURNAL</small><h1>Nicole 的记账工作台 🌷</h1><small>把每一笔生活，温柔地记录下来</small></div><span>🌿</span></header>
 <section id="stats" class="page active"><div class="monthbar"><button class="round" id="prev">‹</button><b class="month" id="month"></b><button class="round" id="next">›</button></div>
@@ -337,7 +349,24 @@ let arr=[];for(let n=11;n>=0;n--){let d=new Date(cursor.getFullYear(),cursor.get
 function cats(){let key=mk(new Date(cursor.getFullYear(),cursor.getMonth(),1)),a=rows.filter(r=>r.type===catType&&mk(r.date)===key),t=a.reduce((s,r)=>s+ +r.amount,0),g={};a.forEach(r=>g[r.category]=(g[r.category]||0)+ +r.amount);let x=Object.entries(g).sort((a,b)=>b[1]-a[1]),colors=['#df91ad','#83bca9','#9bb8df','#c3a4d5','#e6bd83','#83c7d4','#b7c98c','#d9a5a0'];if(!x.length){$('#cats').innerHTML='<div class="empty">还没有记录 🌱</div>';return}let angle=0,stops=x.map(([k,v],i)=>{let start=angle;angle+=v/t*360;return colors[i%colors.length]+' '+start+'deg '+angle+'deg'}).join(',');$('#cats').innerHTML='<div class="category-layout"><div class="donut-wrap"><div class="donut" style="background:conic-gradient('+stops+')"><div class="donut-center">本月'+(catType==='expense'?'支出':'收入')+'<b>'+fmt(t)+'</b></div></div></div><div class="cat-legend">'+x.map(([k,v],i)=>'<div class="cat-item"><i class="cat-dot" style="background:'+colors[i%colors.length]+'"></i><span class="cat-name">'+k+'</span><b class="cat-value">'+fmt(v)+'</b><small class="cat-percent">'+Math.round(v/t*100)+'%</small></div>').join('')+'</div></div>'}
 function details(){let q=($('#search').value||'').toLowerCase(),m=$('#fm').value,t=$('#ft').value,a=rows.filter(r=>(!q||[r.note,r.category].join(' ').toLowerCase().includes(q))&&(!m||mk(r.date)===m)&&(!detailsYearFilter||r.date.startsWith(String(detailsYearFilter)))&&(t==='all'||r.type===t)).sort((a,b)=>(b.date+b.created).localeCompare(a.date+a.created));$('#count').textContent=a.length+' 笔';$('#list').innerHTML=a.length?a.map(r=>'<div class="row detail-row" data-id="'+r.id+'"><div class="ico">'+r.icon+'</div><div class="grow"><b>'+r.category+(r.note?' · '+r.note:'')+'</b><small>'+r.date+' · '+(settings.accounts.find(x=>x.id===r.account)?.name||'账户')+(r.photos?.length?' · 📷 '+r.photos.length:'')+'</small>'+(r.photos?.length?'<div class="thumbs">'+r.photos.map(p=>'<img src="'+p.data+'">').join('')+'</div>':'')+'<div class="detail-actions"><button class="delete-detail" type="button" data-delete-id="'+r.id+'">♲ 删除记录</button></div></div><b class="amount '+(r.type==='income'?'in':'out')+'">'+(r.type==='income'?'+':'−')+fmt(r.amount)+'</b></div>').join(''):'<div class="empty">还没有记录，点击 ＋ 开始吧 🌷</div>';$$('[data-id]').forEach(e=>e.onclick=()=>edit(e.dataset.id));$$('[data-delete-id]').forEach(b=>b.onclick=async e=>{e.stopPropagation();await deleteDetail(b.dataset.deleteId)})}
 async function deleteDetail(id){const r=rows.find(x=>String(x.id)===String(id));if(!r)return;if(!confirm('确定删除这笔记录吗？删除后会同步更新统计、趋势图和账户余额。'))return;const next={...settings,accounts:settings.accounts.map(a=>({...a}))};const from=next.accounts.find(a=>a.id===r.account),to=next.accounts.find(a=>a.id===r.toaccount);if(r.type==='income'&&from)from.balance-=Number(r.amount)||0;if(r.type==='expense'&&from)from.balance+=Number(r.amount)||0;if(r.type==='transfer'){if(from)from.balance+=Number(r.amount)||0;if(to)to.balance-=Number(r.amount)||0}try{const tx=db.transaction([S,M],'readwrite');tx.objectStore(S).delete(r.id);tx.objectStore(M).put({id:'settings',value:next});await new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('删除失败'));tx.onabort=()=>reject(tx.error||new Error('删除已取消'))});settings=next;await load();}catch(err){console.error('Delete failed:',err);alert('删除失败：'+(err?.message||'请稍后重试'))}}
-function accounts(){$('#total').textContent=fmt(settings.accounts.reduce((s,a)=>s+a.balance,0));$('#accounts').innerHTML=settings.accounts.map(a=>'<div class="row"><div class="ico">'+a.icon+'</div><div class="grow"><b>'+a.name+'</b></div><b>'+fmt(a.balance)+'</b></div>').join('');$('#booklist').innerHTML=settings.books.map(b=>'<div class="row">📔　'+b+'</div>').join('')}
+function accounts(){
+  $('#total').textContent=fmt(settings.accounts.reduce((s,a)=>s+a.balance,0));
+  $('#accounts').innerHTML=settings.accounts.map(a=>'<div class="row"><div class="ico">'+a.icon+'</div><div class="grow"><b>'+a.name+'</b></div><b>'+fmt(a.balance)+'</b></div>').join('');
+  const books=Array.isArray(settings.books)?settings.books:[];
+  $('#booklist').innerHTML=books.map((name,index)=>'<div class="book-row"><div class="book-icon">📔</div><div class="book-info"><b>'+escapeHTML(String(name))+'</b><small>我的账本 · '+(index+1)+' </small></div><button class="book-delete" type="button" data-delete-book="'+index+'">删除</button></div>').join('')||'<div class="empty">还没有账本，点击下方按钮新增 🌷</div>';
+  $$('#booklist [data-delete-book]').forEach(button=>button.onclick=()=>deleteBook(Number(button.dataset.deleteBook)));
+}
+function escapeHTML(value){return value.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+async function deleteBook(index){
+  const books=Array.isArray(settings.books)?settings.books:[];
+  if(index<0||index>=books.length)return;
+  if(books.length<=1){alert('至少保留一本账本，不能删除最后一本。');return}
+  const name=books[index];
+  if(!confirm('确定删除「'+name+'」吗？此操作只会从账本列表移除名称，不会删除明细记录或账户余额。'))return;
+  const previous=[...books];
+  settings.books=books.filter((_,i)=>i!==index);
+  try{await saveSettings();render()}catch(error){settings.books=previous;alert('删除失败，请稍后重试。');console.error(error)}
+}
 function modal(){editing=null;type='expense';keepPhotos=[];$('#amount').value='';$('#note').value='';$('#photos').value='';$('#preview').innerHTML='';$('#date').value=new Date().toISOString().slice(0,10);$('#del').hidden=true;$('#modal').classList.add('show');updateType()}
 function updateType(){ $$('[data-type]').forEach(b=>b.classList.toggle('chosen',b.dataset.type===type));let cats=C[type]||[['🔄','转账']];$('#category').innerHTML=cats.map(c=>'<option value="'+c[1]+'">'+c[0]+' '+c[1]+'</option>').join('');$('#account').innerHTML=settings.accounts.map(a=>'<option value="'+a.id+'">'+a.icon+' '+a.name+'</option>').join('');$('#toaccount').innerHTML=settings.accounts.map(a=>'<option value="'+a.id+'">'+a.icon+' '+a.name+'</option>').join('');$('#tolabel').hidden=$('#toaccount').hidden=type!=='transfer'}
 function edit(id){let r=rows.find(x=>x.id===id);modal();editing=id;type=r.type;updateType();$('#amount').value=r.amount;$('#category').value=r.category;$('#account').value=r.account;$('#toaccount').value=r.toaccount||'';$('#date').value=r.date;$('#note').value=r.note||'';keepPhotos=[...(r.photos||[])];preview();$('#del').hidden=false}
