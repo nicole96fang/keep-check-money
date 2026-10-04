@@ -18,3 +18,9 @@
 
 ## 数据安全
 账目和照片保存在当前浏览器 IndexedDB，不会上传到 GitHub。清除 Safari 网站数据可能删除本机资料。定期在「我的」导出 JSON，并保存到 iCloud Drive 或「文件」。
+
+
+## Dreamy Garden visual refresh
+- The supplied Big Ben watercolor image is included as `dreamy-garden-bg.jpeg` and used as the app-wide background.
+- Existing IndexedDB ledger storage and transaction workflows are retained.
+- The statistics category section now uses a donut chart with a category legend.
