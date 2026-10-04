@@ -226,7 +226,54 @@ function updateType(){ $$('[data-type]').forEach(b=>b.classList.toggle('chosen',
 function edit(id){let r=rows.find(x=>x.id===id);modal();editing=id;type=r.type;updateType();$('#amount').value=r.amount;$('#category').value=r.category;$('#account').value=r.account;$('#toaccount').value=r.toaccount||'';$('#date').value=r.date;$('#note').value=r.note||'';keepPhotos=[...(r.photos||[])];preview();$('#del').hidden=false}
 function preview(){$('#preview').innerHTML=keepPhotos.map((p,i)=>'<span><img src="'+p.data+'"><button data-x="'+i+'">×</button></span>').join('');$$('[data-x]').forEach(b=>b.onclick=()=>{keepPhotos.splice(+b.dataset.x,1);preview()})}
 function dataURL(f){return new Promise(ok=>{let r=new FileReader();r.onload=()=>ok({name:f.name,data:r.result});r.readAsDataURL(f)})}
-async function save(){let n=+$('#amount').value;if(!(n>0))return alert('请输入金额');let old=rows.find(r=>r.id===editing);if(old)adj(old,-1);let photos=await Promise.all([...$('#photos').files].map(dataURL));let cat=$('#category').value,r={id:editing||uid(),type,amount:n,category:cat,account:$('#account').value,toaccount:$('#toaccount').value,date:$('#date').value,note:$('#note').value,photos:[...keepPhotos,...photos],icon:(C[type]||[]).find(x=>x[1]===cat)?.[0]||'🔄',created:old?.created||Date.now()};adj(r,1);await req(store(S,'readwrite').put(r));$('#modal').classList.remove('show');await load()}
+let savingRecord=false;
+function adjustBalance(r,dir){
+  const amount=Number(r.amount)||0;
+  const from=settings.accounts.find(a=>a.id===r.account);
+  if(r.type==='income'&&from)from.balance=(Number(from.balance)||0)+dir*amount;
+  if(r.type==='expense'&&from)from.balance=(Number(from.balance)||0)-dir*amount;
+  if(r.type==='transfer'){
+    const to=settings.accounts.find(a=>a.id===r.toaccount);
+    if(from)from.balance=(Number(from.balance)||0)-dir*amount;
+    if(to)to.balance=(Number(to.balance)||0)+dir*amount;
+  }
+}
+function transactionDone(tx){return new Promise((resolve,reject)=>{tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error||new Error('数据库写入失败'));tx.onabort=()=>reject(tx.error||new Error('保存已取消'))})}
+async function save(){
+  if(savingRecord)return;
+  const n=Number($('#amount').value);
+  if(!(n>0)){alert('请输入大于 0 的金额');return}
+  if(!$('#date').value){alert('请选择日期');return}
+  const account=$('#account').value,toaccount=$('#toaccount').value;
+  if(!account){alert('请先选择付款账户');return}
+  if(type==='transfer'&&(!toaccount||toaccount===account)){alert('转账时请选择不同的转出和转入账户');return}
+  savingRecord=true;
+  const saveButtons=[$('#save'),$('#keydone')];saveButtons.forEach(b=>{if(b){b.disabled=true;b.style.opacity='.65'}});
+  const old=rows.find(r=>r.id===editing);
+  const previousSettings=JSON.parse(JSON.stringify(settings));
+  try{
+    // Photos are already read into keepPhotos by the file-input change handler.
+    const cat=$('#category').value;
+    const record={id:editing||uid(),type,amount:n,category:cat,account,toaccount,date:$('#date').value,note:$('#note').value.trim(),photos:[...keepPhotos],icon:(C[type]||[]).find(x=>x[1]===cat)?.[0]||'🔄',created:old?.created||Date.now()};
+    if(old)adjustBalance(old,-1);
+    adjustBalance(record,1);
+    const tx=db.transaction([S,M],'readwrite');
+    const done=transactionDone(tx);
+    tx.objectStore(S).put(record);
+    tx.objectStore(M).put({id:'settings',value:settings});
+    await done;
+    $('#modal').classList.remove('show');
+    editing=null;keepPhotos=[];$('#photos').value='';
+    await load();
+    alert('保存成功！这笔记录已加入明细和统计。');
+  }catch(err){
+    settings=previousSettings;
+    console.error('Record save failed:',err);
+    alert('保存失败：'+(err?.message||'本机储存暂时无法写入')+'。请不要关闭页面，重新尝试；如果仍失败，请先到「我的」进行备份。');
+  }finally{
+    savingRecord=false;saveButtons.forEach(b=>{if(b){b.disabled=false;b.style.opacity=''}});
+  }
+}
 async function backup(){let blob=new Blob([JSON.stringify({app:'NicoleLedger',version:1,rows,settings,created:new Date().toISOString()})],{type:'application/json'}),a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download='Nicole-记账备份-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(u);settings.lastBackup=new Date().toISOString();await saveSettings();render()}
 async function restore(f){let d=JSON.parse(await f.text());if(d.app!=='NicoleLedger'||!Array.isArray(d.rows)||!d.settings)throw Error('备份文件格式不正确');if(!confirm('恢复会覆盖当前账目，建议先备份。继续？'))return;await req(store(S,'readwrite').clear());for(let r of d.rows)await req(store(S,'readwrite').put(r));settings=d.settings;await saveSettings();await load()}
 function print(id){$$('.page').forEach(p=>p.classList.remove('printing'));$('#'+id).classList.add('printing');window.print();setTimeout(()=>$('#'+id).classList.remove('printing'),800)}
