@@ -136,6 +136,30 @@ body::after{
 @media(min-width:650px){.modal{align-items:center;padding:20px}.sheet.entry-sheet{border-radius:28px;max-height:90dvh;padding:14px 22px 22px}}
 @media(max-width:380px){.sheet.entry-sheet{padding-left:13px;padding-right:13px}.entry-keypad button{height:43px}.entry-fields{gap:8px}.entry-title{font-size:21px}}
 
+
+/* Entry sheet uses the same Dreamy Garden artwork as the main workspace */
+.modal{
+  background:rgba(225,238,250,.16)!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+}
+.sheet.entry-sheet{
+  background:linear-gradient(155deg,
+    rgba(255,255,255,.80) 0%,
+    rgba(245,249,255,.76) 52%,
+    rgba(255,247,251,.79) 100%)!important;
+  border:1px solid rgba(255,255,255,.86)!important;
+  box-shadow:0 -12px 42px rgba(73,96,130,.14),inset 0 1px 0 rgba(255,255,255,.72)!important;
+  backdrop-filter:blur(15px) saturate(1.08)!important;
+  -webkit-backdrop-filter:blur(15px) saturate(1.08)!important;
+}
+/* Keep form controls readable over the softly visible watercolor background */
+.entry-sheet .amount-panel{background:linear-gradient(120deg,rgba(232,241,253,.88),rgba(255,244,249,.88))!important}
+.entry-sheet .entry-field .field{background:rgba(255,255,255,.91)!important}
+.entry-sheet .entry-keypad button{background:rgba(255,255,255,.92)}
+.entry-sheet .entry-keypad .key-soft{background:rgba(243,246,252,.94)}
+.entry-sheet .entry-keypad .key-save{background:rgba(223,242,233,.96)}
+
 </style></head><body><div class="app">
 <header class="top"><div><small>WATERCOLOR MONEY JOURNAL</small><h1>Nicole 的记账工作台 🌷</h1><small>把每一笔生活，温柔地记录下来</small></div><span>🌿</span></header>
 <section id="stats" class="page active"><div class="monthbar"><button class="round" id="prev">‹</button><b class="month" id="month"></b><button class="round" id="next">›</button></div>
