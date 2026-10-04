@@ -186,18 +186,39 @@ body::after{
 
 .detail-row{align-items:flex-start}.detail-row .grow{padding-top:2px}.detail-actions{display:flex;gap:8px;margin-top:9px}.delete-detail{border:1px solid #f0cbd6;background:rgba(255,239,244,.82);color:#bd6d88;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:650;line-height:1.2;cursor:pointer}.delete-detail:active{transform:scale(.97);background:#f9e1e9}.detail-row .amount{padding-top:3px}
 
-/* ===== FIXED: translucent dashboard glass cards ===== */
+/* ===== Watercolor glass v4: dashboard cards ===== */
 #stats .card,
-#stats .summary-card,
-#stats .chart-card {
-  background: rgba(255, 255, 255, 0.46) !important;
-  background-color: rgba(255, 255, 255, 0.46) !important;
-  border: 1px solid rgba(255, 255, 255, 0.76) !important;
+#stats .card.summary-card,
+#stats .month-summary,
+#stats .year-summary {
+  background: rgba(255, 255, 255, 0.24) !important;
+  background-color: rgba(255, 255, 255, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.78) !important;
+  outline: 1px solid rgba(225, 235, 247, 0.22) !important;
   box-shadow:
-    0 10px 28px rgba(91, 112, 146, 0.09),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(115%) !important;
-  backdrop-filter: blur(18px) saturate(115%) !important;
+    0 8px 26px rgba(76, 103, 137, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+  backdrop-filter: blur(10px) saturate(120%) !important;
+}
+
+/* Remove the separate opaque-looking panel behind the trend bars */
+#stats .chart,
+#stats #chart {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Keep the card contents crisp and readable */
+#stats .card .head,
+#stats .summary-hint,
+#stats .summary-metric,
+#stats .summary-metric b,
+#stats .summary-metric span,
+#stats .labels,
+#stats .card small {
+  opacity: 1 !important;
 }
 
 </style></head><body><div class="app">
