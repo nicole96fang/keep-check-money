@@ -24,3 +24,9 @@
 - The supplied Big Ben watercolor image is included as `dreamy-garden-bg.jpeg` and used as the app-wide background.
 - Existing IndexedDB ledger storage and transaction workflows are retained.
 - The statistics category section now uses a donut chart with a category legend.
+
+## Watercolor glass v5
+- Dashboard cards use a lighter 15% white glass layer and a restrained 3px backdrop blur.
+- The page-wide white wash is reduced so the garden watercolor background remains visible.
+- Service worker cache key updated to v9 to help browsers fetch the new styling.
+- Ledger logic and local IndexedDB data structure are unchanged.
