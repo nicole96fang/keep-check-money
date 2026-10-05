@@ -300,6 +300,15 @@ body::after{
 #me .card small { opacity: 1 !important; }
 
 /* v8: tidy ledger list with a dedicated, easy-to-tap delete action */
+#books #accounts{display:flex;flex-direction:column;gap:8px;margin:12px 0 14px}
+#books .account-row{display:flex;align-items:center;gap:11px;min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.60);border-radius:17px;background:rgba(255,255,255,.20);box-shadow:inset 0 1px 0 rgba(255,255,255,.42)}
+#books .account-row .ico{width:42px;height:42px;flex:0 0 42px;margin:0;background:rgba(250,224,237,.42)!important;border:1px solid rgba(255,255,255,.42);border-radius:14px;display:grid;place-items:center;font-size:21px}
+#books .account-row .grow{min-width:0}
+#books .account-row .account-name{font-size:15px;font-weight:700;color:#4b5369;overflow-wrap:anywhere}
+#books .account-row .account-balance{font-size:15px;color:#4b5369;white-space:nowrap;margin-left:auto}
+#books .account-delete{flex:0 0 auto;width:34px;height:34px;border:1px solid rgba(216,143,163,.30);border-radius:11px;background:rgba(255,232,238,.54);color:#b96e87;font-size:15px;display:grid;place-items:center;cursor:pointer}
+#books .account-delete:active{transform:scale(.95);background:rgba(250,215,226,.82)}
+#books .booklist-title{margin-top:2px}
 #books #booklist{display:flex;flex-direction:column;gap:9px;margin:12px 0 14px}
 #books .book-row{display:flex;align-items:center;gap:12px;min-width:0;padding:12px 11px;border:1px solid rgba(255,255,255,.68);border-radius:18px;background:rgba(255,255,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.48)}
 #books .book-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:15px;background:rgba(249,220,235,.58);font-size:21px}
@@ -309,7 +318,7 @@ body::after{
 #books .book-delete{flex:0 0 auto;border:1px solid rgba(216,143,163,.32);border-radius:12px;padding:9px 12px;background:rgba(255,232,238,.68);color:#b96e87;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
 #books .book-delete:active{transform:scale(.97);background:rgba(250,215,226,.88)}
 #books #addbook{margin-top:4px}
-@media(max-width:360px){#books .book-row{gap:8px;padding:10px 8px}#books .book-delete{padding:8px 9px}}
+@media(max-width:360px){#books .account-row{gap:8px;padding:8px}#books .account-delete{width:32px;height:32px}#books .book-row{gap:8px;padding:10px 8px}#books .book-delete{padding:8px 9px}}
 
 </style></head><body><div class="app">
 <header class="top"><div><small>WATERCOLOR MONEY JOURNAL</small><h1>Nicole 的记账工作台 🌷</h1><small>把每一笔生活，温柔地记录下来</small></div><span>🌿</span></header>
@@ -319,7 +328,7 @@ body::after{
 <div class="card"><div class="head">📈 近 12 个月收支趋势</div><div class="chart" id="chart"></div><div class="labels" id="labels"></div><small>🌸 支出　　<span class="in">🌿 收入</span></small></div>
 <div class="card"><div class="head">🥣 分类占比 <span class="switch"><button class="btn" id="cout">支出</button><button class="btn mint" id="cin">收入</button></span></div><div id="cats" class="empty">还没有记录</div></div><button class="btn outline full noprint" id="pstats">🖨️ 打印统计 A4</button></section>
 <section id="details" class="page"><div class="card"><div class="head">📒 每一笔记录 <small id="count">0 笔</small></div><input class="field" id="search" placeholder="搜索备注、分类、账户…"><div class="tools"><input class="field" type="month" id="fm"><select class="field" id="ft"><option value="all">全部类型</option><option value="expense">支出</option><option value="income">收入</option></select></div><button class="btn outline" id="pdetails">🖨️ A4 打印</button><div id="list"></div></div></section>
-<section id="books" class="page"><div class="card"><div class="head">💚 我的账户</div><div class="hero"><small>账户总余额</small><strong id="total">RM 0.00</strong><small>仅保存在当前设备</small></div><div id="accounts"></div><button class="btn mint full" id="addacc">＋ 新增账户</button></div><div class="card"><div class="head">📚 我的账本</div><div id="booklist">🌷 日常账本</div><button class="btn full" id="addbook">＋ 新建账本</button></div></section>
+<section id="books" class="page"><div class="card"><div class="head">💚 我的账户</div><div class="hero"><small>账户总余额</small><strong id="total">RM 0.00</strong><small>仅保存在当前设备</small></div><div id="accounts"></div><button class="btn mint full" id="addacc">＋ 新增账户</button></div><div class="card"><div class="head booklist-title">📚 我的账本</div><div id="booklist">🌷 日常账本</div><button class="btn full" id="addbook">＋ 新建账本</button></div></section>
 <section id="me" class="page"><div class="card"><div class="head">🌷 我的记账日记</div><div class="hero"><small>累计记账笔数</small><strong id="totaln">0</strong><small>认真生活的每一天</small></div></div><div class="card"><div class="head">🛡️ 数据安全中心</div><div class="notice">数据只保存在此设备的 Safari IndexedDB，不会上传服务器。若清除 Safari 网站数据，本机账目可能被删除。请定期备份 JSON 文件到 iCloud Drive 或「文件」。</div><p id="backupstatus"><small>尚未备份</small></p><button class="btn mint full" id="backup">⬇️ 立即备份（含照片）</button><button class="btn outline full" id="restore">⬆️ 恢复备份</button><input type="file" id="restorefile" accept=".json,application/json" hidden></div><div class="card"><div class="head">⚙️ 工作台设置</div><label>每月预算（RM）</label><input class="field" id="budget" type="number" placeholder="例如 3000"><button class="btn mint full" id="savebudget">保存预算</button><button class="btn outline full" id="pall">打印全部明细 A4</button><button class="btn danger full" id="wipe">清空本机数据</button></div></section>
 </div>
 <nav class="bottom noprint"><button class="nav active" data-page="stats"><span>📊</span>统计</button><button class="nav" data-page="details"><span>📒</span>明细</button><button class="nav plus" id="add"><span>＋</span>记账</button><button class="nav" data-page="books"><span>💰</span>账本</button><button class="nav" data-page="me"><span>🌷</span>我的</button></nav>
@@ -351,12 +360,24 @@ function details(){let q=($('#search').value||'').toLowerCase(),m=$('#fm').value
 async function deleteDetail(id){const r=rows.find(x=>String(x.id)===String(id));if(!r)return;if(!confirm('确定删除这笔记录吗？删除后会同步更新统计、趋势图和账户余额。'))return;const next={...settings,accounts:settings.accounts.map(a=>({...a}))};const from=next.accounts.find(a=>a.id===r.account),to=next.accounts.find(a=>a.id===r.toaccount);if(r.type==='income'&&from)from.balance-=Number(r.amount)||0;if(r.type==='expense'&&from)from.balance+=Number(r.amount)||0;if(r.type==='transfer'){if(from)from.balance+=Number(r.amount)||0;if(to)to.balance-=Number(r.amount)||0}try{const tx=db.transaction([S,M],'readwrite');tx.objectStore(S).delete(r.id);tx.objectStore(M).put({id:'settings',value:next});await new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('删除失败'));tx.onabort=()=>reject(tx.error||new Error('删除已取消'))});settings=next;await load();}catch(err){console.error('Delete failed:',err);alert('删除失败：'+(err?.message||'请稍后重试'))}}
 function accounts(){
   $('#total').textContent=fmt(settings.accounts.reduce((s,a)=>s+a.balance,0));
-  $('#accounts').innerHTML=settings.accounts.map(a=>'<div class="row"><div class="ico">'+a.icon+'</div><div class="grow"><b>'+a.name+'</b></div><b>'+fmt(a.balance)+'</b></div>').join('');
+  $('#accounts').innerHTML=settings.accounts.map(a=>'<div class="account-row"><div class="ico">'+a.icon+'</div><div class="grow"><b class="account-name">'+escapeHTML(String(a.name))+'</b></div><b class="account-balance">'+fmt(a.balance)+'</b><button class="account-delete" type="button" title="删除账户" aria-label="删除账户" data-delete-account="'+a.id+'">🗑️</button></div>').join('');
+  $$('#accounts [data-delete-account]').forEach(button=>button.onclick=()=>deleteAccount(button.dataset.deleteAccount));
   const books=Array.isArray(settings.books)?settings.books:[];
   $('#booklist').innerHTML=books.map((name,index)=>'<div class="book-row"><div class="book-icon">📔</div><div class="book-info"><b>'+escapeHTML(String(name))+'</b><small>我的账本 · '+(index+1)+' </small></div><button class="book-delete" type="button" data-delete-book="'+index+'">删除</button></div>').join('')||'<div class="empty">还没有账本，点击下方按钮新增 🌷</div>';
   $$('#booklist [data-delete-book]').forEach(button=>button.onclick=()=>deleteBook(Number(button.dataset.deleteBook)));
 }
 function escapeHTML(value){return value.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+async function deleteAccount(id){
+  const account=settings.accounts.find(a=>String(a.id)===String(id));
+  if(!account)return;
+  if(settings.accounts.length<=1){alert('至少保留一个账户，不能删除最后一个账户。');return}
+  const linked=rows.filter(r=>String(r.account)===String(id)||String(r.toaccount)===String(id));
+  if(linked.length){alert('「'+account.name+'」已有 '+linked.length+' 笔记录使用，不能直接删除。请先处理这些明细记录，再删除账户。');return}
+  if(!confirm('确定删除「'+account.name+'」吗？此账户目前没有任何明细记录。'))return;
+  settings.accounts=settings.accounts.filter(a=>String(a.id)!==String(id));
+  await saveSettings();
+  render();
+}
 async function deleteBook(index){
   const books=Array.isArray(settings.books)?settings.books:[];
   if(index<0||index>=books.length)return;
